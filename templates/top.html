@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            {% load static %}
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'file_list' %}"><i class="bi bi-house-door"></i>Головна</a>
+                
+                </li>
+                
+                <li>
+                    <div class="dropdown">
+
+            </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'logout-page' %}" class="nav-link"><i class="bi bi-box-arrow-in-left"></i>Логаут </a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'login-page' %}" class="nav-link active">Логін</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'register-page' %}" class="nav-link active">Реєстрація</a>
+                </li>
+                
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

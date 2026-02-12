@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+<h1>{{ file.name }}</h1>
+<a href="{% url file_list %}" class="btn btn-warning">Назад к списку файлов</a>
+</div>
+<p>Опубликовано: {{ file.created_by }}</p>
+
+<a> Контент {{file.main_content}}</a>
+
+{% endblock %}

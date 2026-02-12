@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+    {% block content %}
+      <h1>Реєстрація</h1>
+        <form action="" method="post" style="max-width: 500px;">
+            {% csrf_token %}
+            {{form.as_div}}
+            <button type="submit" class="btn btn-primary">Зареєструватися в системі</button>
+        </form>
+
+
+
+
+
+    {% endblock %}

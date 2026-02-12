@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+    {% block content %}
+        <h1>Вхід</h1>
+        <form action="" method="post" style="max-width: 400px;">
+            {% csrf_token %}
+            {{form.as_div}}
+            <button type="submit" class="btn btn-primary">Війти в акаунт</button>
+        </form>
+
+
+    {% endblock %}
