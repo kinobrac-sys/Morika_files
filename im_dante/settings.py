@@ -33,12 +33,31 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
-        conn_max_age=600
-    )
-}
+# DATABASE: parse `DATABASE_URL` env var if present and valid; otherwise fall back to sqlite
+
+# Prefer explicit env var parsing so a malformed `DATABASE_URL` doesn't raise uncaught errors
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    try:
+        DATABASES = {
+            'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+        }
+    except Exception as e:
+        # If the provided DATABASE_URL is invalid (e.g. missing scheme), fall back to sqlite
+        print(f"Warning: invalid DATABASE_URL '{DATABASE_URL}': {e}. Falling back to sqlite.")
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -84,14 +103,7 @@ WSGI_APPLICATION = 'im_dante.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# (Handled above by parsing DATABASE_URL or falling back to sqlite)
 
 
 # Password validation
