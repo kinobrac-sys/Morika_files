@@ -161,19 +161,8 @@ STORAGES = {
 
 MEDIA_URL = '/media/'
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "files.settings") # Замініть myproject на назву вашої папки!
-django.setup()
-
-User = get_user_model()
-username = os.environ.get('DJANGO_SUPERUSER_USERNAME')
-email = os.environ.get('DJANGO_SUPERUSER_EMAIL')
-password = os.environ.get('DJANGO_SUPERUSER_PASSWORD')
-
-if username and password:
-    if not User.objects.filter(username=username).exists():
-        print(f"Creating superuser: {username}")
-        User.objects.create_superuser(username=username, email=email, password=password)
-    else:
-        print(f"Superuser {username} already exists. Skipping.")
-else:
-    print("No superuser credentials found in environment variables. Skipping.")
+# NOTE: Do NOT run `django.setup()` or access the database from settings.
+# The previous version created a superuser at import time which caused
+# "no such table" errors during migrations. Create superusers from a
+# separate startup script or via `manage.py createsuperuser` after
+# running migrations.
