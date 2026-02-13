@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.11-slim
 
 # 2. Вимикаємо створення .pyc файлів та буферизацію виводу (корисно для логів)
 ENV PYTHONDONTWRITEBYTECODE=1
