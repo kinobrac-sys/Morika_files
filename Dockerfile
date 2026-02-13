@@ -9,13 +9,27 @@ WORKDIR /app
 
 # 4. Встановлюємо залежності системи (потрібно для деяких python-пакетів)
 RUN apt-get update && apt-get install -y \
+    build-essential \
     gcc \
+    g++ \
+    gfortran \
     libpq-dev \
+    libffi-dev \
+    libssl-dev \
+    libjpeg-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    liblzma-dev \
+    libblas-dev \
+    liblapack-dev \
+    libopenblas-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # 5. Копіюємо requirements і встановлюємо бібліотеки
 COPY requirements.txt /app/
-RUN pip install --upgrade pip && pip install -r requirements.txt
+ENV PIP_NO_CACHE_DIR=1
+RUN pip install --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir --prefer-binary -r requirements.txt
 
 # 6. Копіюємо весь код проєкту
 COPY . /app/
